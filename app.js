@@ -14,4 +14,24 @@ function initBoard(const height, const width){
     }
     body.append(divRow);
   }
+} 
+
+let Node = {
+  Node Up = null;
+  Node Down = null;
+  Node Left = null;
+  Node Right = null; 
+  
+  let Start = false;
+  let Destination = false;
+  let isExplored = false;
+  
+  function Node(let up, let down, let left, let right)
+  {
+    Up = up;
+    Down = down;
+    Left = left;
+    Right = right;
+  }
+
 }
