@@ -1,0 +1,8 @@
+.cell {
+    background-color: lightskyblue;
+    width: 30px;
+    height: 20px;
+    display: inline-block;
+    margin: 1px;
+    
+}

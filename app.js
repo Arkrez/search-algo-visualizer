@@ -1,6 +1,7 @@
 const body = document.querySelector("body");
-
-function initBoard(const height, const width){
+const graphContainer = document.createElement("div");
+function initBoard(height, width){
+  graphContainer.classList.add("graph-container")
   for(let row = 0; row < height; row++)
   {
     const divRow = document.createElement("div");
@@ -9,29 +10,23 @@ function initBoard(const height, const width){
     {
       const divCol = document.createElement("div");
       divCol.classList.add("cell");
-      myGraph.Add(divCol);
+     
       divRow.appendChild(divCol);
     }
-    body.append(divRow);
+    graphContainer.appendChild(divRow);
   }
-} 
 
-let Node = {
-  Node Up = null;
-  Node Down = null;
-  Node Left = null;
-  Node Right = null; 
+  body.appendChild(graphContainer);
+} 
+initBoard(20, 20);
+class Node {
   
-  let Start = false;
-  let Destination = false;
-  let isExplored = false;
-  
-  function Node(let up, let down, let left, let right)
+  constructor(up, down, left, right)
   {
-    Up = up;
-    Down = down;
-    Left = left;
-    Right = right;
+    this.up = up;
+    this.down = down;
+    this.left = left;
+    this.right = right;
   }
 
 }
