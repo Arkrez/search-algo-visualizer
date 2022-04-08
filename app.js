@@ -21,7 +21,15 @@ function initBoard(height, width){
       divRow.appendChild(divCol);
     }
     graphContainer.appendChild(divRow);
+  
+    
   }
+  CreateGraph(height, width);
+  body.appendChild(graphContainer);
+} 
+
+function CreateGraph(height, width)
+{
   for(let row = 0; row < height; row++)
   {
     for(let col = 0; col < width; col++)
@@ -46,12 +54,9 @@ function initBoard(height, width){
       else
         graph[row][col].right = null;
       
-    }
+    }  
   }
-
-  body.appendChild(graphContainer);
-} 
-
+}
 class Node {
   
   constructor(up, down, left, right, cell)
@@ -64,4 +69,4 @@ class Node {
   }
 
 }
-initBoard(2, 2);
+initBoard(20, 20);
