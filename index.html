@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
- 
+  <script src="app.js" defer></script>
   <title>Document</title>
   </head>
   
@@ -23,15 +23,22 @@
         <div>
           <button>Draw Walls</button>
         </div>
-        <div>Contact</div>
+        <div>
+          <select name="end-points" id="end-points">
+            <option value="start">Start</option>
+            <option value="end">End</option>
+          </select>
+        </div>
             
       </div>
 
     </div>
+    <div class="board-container">
 
-    <script src="app.js" ></script>
+    </div>
+    
      <div>
-       <button>
+       <button class="search-btn">
          SEARCH!
        </button>
      </div>
