@@ -50,6 +50,7 @@ function initBoard(height, width){
   //adding the graph to the appropriate div in the dom
   boardContainer.appendChild(graphContainer);
 } 
+let end = 12;
 
 function UpdateGraphNodes(height, width)
 {
@@ -81,16 +82,128 @@ function UpdateGraphNodes(height, width)
     }  
   }
 }
+
+
 class Node {
   
   constructor(up, down, left, right, cell)
   {
-    this.cell = cell;
+    
     this.up = up;
     this.down = down;
     this.left = left;
     this.right = right;
+    this.cell = cell;
+    this.distance = Infinity;
   }
 
 }
+class Queue
+{
+    // Array is used to implement a Queue
+    constructor()
+    {
+        this.items = [];
+    }
+                  
+    // Functions to be implemented
+    
+    // enqueue function
+    enqueue(element)
+    {    
+        // adding element to the queue
+        this.items.push(element);
+    }
+   // dequeue function
+    dequeue()
+    {
+      // removing element from the queue
+      // returns underflow when called
+      // on empty queue
+      if(this.isEmpty())
+        return "Underflow";
+      return this.items.shift();
+    }
+
+    // front function
+    front()
+    {
+      // returns the Front element of
+      // the queue without removing it.
+      if(this.isEmpty())
+        return "No elements in Queue";
+      return this.items[0];
+    }
+
+    
+    // isEmpty function
+    isEmpty()
+    {
+        // return true if the queue is empty.
+        return this.items.length == 0;
+    }
+    // printQueue function
+    printQueue()
+    {
+      var str = "";
+      for(var i = 0; i < this.items.length; i++)
+        str += this.items[i] +" ";
+      return str;
+    }
+
+}
+
 initBoard(20, 20);
+
+function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
+{
+  //creating a shortest-path-tree set
+  const seen = new Set();
+  const sptSet = new Set();
+  const queueToSearch = new Queue();
+  graph.forEach(node => {
+    node.distance = Infinity;
+  });
+  start.distance = 0;
+  queueToSearch.enqueue(start);
+  console.log(queueToSearch)
+  let i = 0;
+  while(sptSet.add(end))
+  {
+    console.log("running");
+    let searchingNode = queueToSearch.dequeue();
+    
+    searchingNode.cell.style.backgroundColor = "pink";
+    seen.add(searchingNode);
+    sptSet.add(searchingNode);
+    if(searchingNode.up != null && !sptSet.has(searchingNode.up) && !seen.has(searchingNode.up))
+    {
+      seen.add(searchingNode.up);
+      queueToSearch.enqueue(searchingNode.up);
+    }
+    if(searchingNode.down != null && !sptSet.has(searchingNode.down)&& !seen.has(searchingNode.down))
+    {
+      seen.add(searchingNode.down);
+      queueToSearch.enqueue(searchingNode.down);
+    }
+    if(searchingNode.left != null && !sptSet.has(searchingNode.left)&& !seen.has(searchingNode.left))
+    {
+      seen.add(searchingNode.left);
+      queueToSearch.enqueue(searchingNode.left);
+    }
+    if(searchingNode.right != null && !sptSet.has(searchingNode.right) && !seen.has(searchingNode.right))
+    {
+      seen.add(searchingNode.right);
+      queueToSearch.enqueue(searchingNode.right);
+    }
+    i++;
+    if(i > 10000)
+      return;
+  }
+
+}
+search.addEventListener('click', e=>{e.stopPropagation()
+  search.addEventListener('click', DjkstrasSearch(graph[0][0], graph[15][15]));
+});
+
+
