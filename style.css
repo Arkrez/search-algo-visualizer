@@ -39,6 +39,9 @@
     background-color: red;
     
 }
+.end {
+    background-color: blueviolet;
+}
 
 #algos{
     display: block;
@@ -51,3 +54,14 @@
     height: 30px;
     background-color: rgb(176, 176, 206)
 }
+
+.cell-filled {
+    
+    
+    background-color: red;
+    
+    
+    transform-origin: center;
+    transition: all 0.5s ease-in;
+  }
+  

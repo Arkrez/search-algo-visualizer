@@ -1,9 +1,13 @@
 //Getting reference to html elements
 const boardContainer = document.querySelector(".board-container");
 const search = document.querySelector(".search-btn")
+const endPoints = document.querySelector("#end-points");
 //initializing graph and creating a variable for cell divs for later
 let graph = [...Array(6)].map(e => Array(6));
-let changed;
+let startPointNode;
+let endPointNode;
+let start = graph[3][3];
+let end = graph[5][5];
 //intializing board and cells
 function initBoard(height, width){
   //creating a large container for all of the cells
@@ -27,15 +31,33 @@ function initBoard(height, width){
       graph[row][col] = new Node(null,null,null,null,divCol);
       //adding event listners to every cell
       divCol.addEventListener('click', function(){
-        if(changed != undefined)
+        if(endPoints.selectedIndex == 0)
         {
-          changed.classList.remove("start");
-          changed.textContent = "";
+          if(startPointNode != undefined)
+          {
+            startPointNode.cell.classList.remove("start");
+            startPointNode.cell.textContent = "";
+          }
+          
+          startPointNode = graph[row][col];
+          start = startPointNode;
+          startPointNode.cell.classList.add("start");
+          startPointNode.cell.textContent = "Start";
+        }
+        else 
+        {
+          if(endPointNode != undefined)
+          {
+            endPointNode.cell.classList.remove("end");
+            endPointNode.cell.textContent = "";
+          }
+          
+          endPointNode = graph[row][col];
+          end= endPointNode;
+          endPointNode.cell.classList.add("end");
+          endPointNode.cell.textContent = "End";
         }
         
-        changed = divCol;
-        changed.classList.add("start");
-        divCol.textContent = "Start";
       });
       //adding the div columns to the row holder
       divRow.appendChild(divCol);
@@ -50,7 +72,7 @@ function initBoard(height, width){
   //adding the graph to the appropriate div in the dom
   boardContainer.appendChild(graphContainer);
 } 
-let end = 12;
+
 
 function UpdateGraphNodes(height, width)
 {
@@ -168,24 +190,29 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
   queueToSearch.enqueue(start);
   console.log(queueToSearch)
   let i = 0;
-  while(sptSet.add(end))
+  while(!sptSet.has(end))
   {
     console.log("running");
     let searchingNode = queueToSearch.dequeue();
     
-    searchingNode.cell.style.backgroundColor = "pink";
+    //searchingNode.cell.style.backgroundColor = "pink";
     seen.add(searchingNode);
     sptSet.add(searchingNode);
+    searchingNode.cell.classList.add("cell-filled");
+    searchingNode.cell.style.transitionDelay = (1 * i)/100 + 's';
+    
     if(searchingNode.up != null && !sptSet.has(searchingNode.up) && !seen.has(searchingNode.up))
     {
       seen.add(searchingNode.up);
       queueToSearch.enqueue(searchingNode.up);
     }
+   
     if(searchingNode.down != null && !sptSet.has(searchingNode.down)&& !seen.has(searchingNode.down))
     {
       seen.add(searchingNode.down);
       queueToSearch.enqueue(searchingNode.down);
     }
+    
     if(searchingNode.left != null && !sptSet.has(searchingNode.left)&& !seen.has(searchingNode.left))
     {
       seen.add(searchingNode.left);
@@ -196,14 +223,18 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
       seen.add(searchingNode.right);
       queueToSearch.enqueue(searchingNode.right);
     }
+    
     i++;
-    if(i > 10000)
-      return;
+    
+  }
+  if(sptSet.has(end))
+  {
+    end.cell.style.backgroundColor = "green";
   }
 
 }
 search.addEventListener('click', e=>{e.stopPropagation()
-  search.addEventListener('click', DjkstrasSearch(graph[0][0], graph[15][15]));
+  search.addEventListener('click', DjkstrasSearch(start, end));
 });
 
 
