@@ -34,16 +34,17 @@
     align-items: center;
     justify-content: space-around;
     min-height: 50px;
-    background-color: rgb(133, 133, 184);
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(141,79,170,1) 0%, rgba(0,212,255,1) 100%);
     flex-wrap: wrap;
 }
 
 .start{
-    background-color: red;
+    background-color: rgba(116,13,163,1);
     
 }
 .end {
-    background-color: blueviolet;
+    background-color: rgba(0,212,255,1);
 }
 
 #algos{
@@ -61,7 +62,7 @@
 .cell-filled {
     
     
-    background-color: red;
+    background-color: rgba(116,13,163,1);
     
     
     transform-origin: center;
@@ -84,4 +85,14 @@ body{
 }
 .search-btn{
     background-color: lightgreen;
+}
+
+.rainbow-mode{
+    border: solid;
+    border-width: 2px;
+    border-color: red;
+
+}
+.rainbow-on {
+    border-color: lightgreen;
 }

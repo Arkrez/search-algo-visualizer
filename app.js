@@ -4,6 +4,7 @@ const search = document.querySelector(".search-btn")
 const endPoints = document.querySelector("#end-points");
 const clear = document.querySelector(".clear-btn");
 const speed = document.getElementById("speed");
+const rainbowEle = document.querySelector(".rainbow-mode");
 //initializing graph and creating a variable for cell divs for later
 let graph = [...Array(6)].map(e => Array(6));
 let startPointNode;
@@ -11,6 +12,7 @@ let endPointNode;
 let start = graph[3][3];
 let end = graph[5][5];
 let isGraphMade = false;
+let isRainbow = false;
 //intializing board and cells
 function initBoard(height, width){
   //creating a large container for all of the cells
@@ -190,6 +192,7 @@ initBoard(30, 30);
 
 function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
 {
+  let r, g, b;
   //creating a shortest-path-tree set
   const seen = new Set();
   const sptSet = new Set();
@@ -211,6 +214,20 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
     sptSet.add(searchingNode);
     searchingNode.cell.classList.add("cell-filled");
     searchingNode.cell.style.transitionDelay = (1 * i)/(speed.value != "" ? speed.value : 50) + 's';
+    if (isRainbow)
+    {
+      r = Math.round(Math.random() * 255);
+      g = Math.round(Math.random() * 100);
+      b = Math.round(Math.random() * 255);
+    }
+    else
+    {
+      r = 100;
+      g = 50;
+      b = 200;
+    }
+   
+    searchingNode.cell.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
     //Add each direction of a node into the quueu as long as the direction does not exist in our set of explored nodes
     if(searchingNode.up != null && !sptSet.has(searchingNode.up) && !seen.has(searchingNode.up))
     {
@@ -241,7 +258,7 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
   //end prematurely if we find the node we are looking for
   if(sptSet.has(end))
   {
-    end.cell.style.backgroundColor = "green";
+    end.cell.style.backgroundColor = "lightgreen";
   }
 
 }
@@ -251,6 +268,20 @@ search.addEventListener('click', e=>{e.stopPropagation()
 });
 clear.addEventListener('click', e=>{e.stopPropagation()
   clear.addEventListener('click', initBoard(30, 30));
+});
+
+
+rainbowEle.addEventListener('click', function(){
+  isRainbow = !isRainbow;
+  if(isRainbow)
+  {
+    rainbowEle.classList.add("rainbow-on");
+  }
+  else
+  {
+    rainbowEle.classList.remove("rainbow-on");
+  }
+  console.log(isRainbow);
 });
 
 
