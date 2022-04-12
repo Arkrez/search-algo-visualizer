@@ -2,17 +2,27 @@
 const boardContainer = document.querySelector(".board-container");
 const search = document.querySelector(".search-btn")
 const endPoints = document.querySelector("#end-points");
+const clear = document.querySelector(".clear-btn");
+const speed = document.getElementById("speed");
 //initializing graph and creating a variable for cell divs for later
 let graph = [...Array(6)].map(e => Array(6));
 let startPointNode;
 let endPointNode;
 let start = graph[3][3];
 let end = graph[5][5];
+let isGraphMade = false;
 //intializing board and cells
 function initBoard(height, width){
   //creating a large container for all of the cells
+  if(isGraphMade)
+  {
+    const toRemove = document.getElementsByClassName("graph-container");
+    boardContainer.removeChild(toRemove[0]);
+  }
   const graphContainer = document.createElement("div");
   graphContainer.classList.add("graph-container")
+  
+    
   //making a 2d graph to map nodes to later
   graph = [...Array(height)].map(e => Array(width));
   //looping over the rows
@@ -71,6 +81,7 @@ function initBoard(height, width){
   UpdateGraphNodes(height, width);
   //adding the graph to the appropriate div in the dom
   boardContainer.appendChild(graphContainer);
+  isGraphMade = true;
 } 
 
 
@@ -199,8 +210,8 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
     seen.add(searchingNode);
     sptSet.add(searchingNode);
     searchingNode.cell.classList.add("cell-filled");
-    searchingNode.cell.style.transitionDelay = (1 * i)/50 + 's';
-    
+    searchingNode.cell.style.transitionDelay = (1 * i)/(speed.value != "" ? speed.value : 50) + 's';
+    //Add each direction of a node into the quueu as long as the direction does not exist in our set of explored nodes
     if(searchingNode.up != null && !sptSet.has(searchingNode.up) && !seen.has(searchingNode.up))
     {
       seen.add(searchingNode.up);
@@ -227,14 +238,20 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
     i++;
     
   }
+  //end prematurely if we find the node we are looking for
   if(sptSet.has(end))
   {
     end.cell.style.backgroundColor = "green";
   }
 
 }
+//Have to nest event listeners here or the search will trigger as soon as the page loads due to bubbling
 search.addEventListener('click', e=>{e.stopPropagation()
   search.addEventListener('click', DjkstrasSearch(start, end));
 });
+clear.addEventListener('click', e=>{e.stopPropagation()
+  clear.addEventListener('click', initBoard(30, 30));
+});
+
 
 
