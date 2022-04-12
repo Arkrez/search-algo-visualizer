@@ -175,7 +175,7 @@ class Queue
 
 }
 
-initBoard(20, 20);
+initBoard(30, 30);
 
 function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
 {
@@ -199,7 +199,7 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
     seen.add(searchingNode);
     sptSet.add(searchingNode);
     searchingNode.cell.classList.add("cell-filled");
-    searchingNode.cell.style.transitionDelay = (1 * i)/100 + 's';
+    searchingNode.cell.style.transitionDelay = (1 * i)/50 + 's';
     
     if(searchingNode.up != null && !sptSet.has(searchingNode.up) && !seen.has(searchingNode.up))
     {
