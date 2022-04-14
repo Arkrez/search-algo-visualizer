@@ -96,3 +96,6 @@ body{
 .rainbow-on {
     border-color: lightgreen;
 }
+.wall-on {
+    background-color: slategray;
+}

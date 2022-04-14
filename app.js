@@ -5,6 +5,7 @@ const endPoints = document.querySelector("#end-points");
 const clear = document.querySelector(".clear-btn");
 const speed = document.getElementById("speed");
 const rainbowEle = document.querySelector(".rainbow-mode");
+const drawWalls = document.querySelector(".draw-walls-btn");
 //initializing graph and creating a variable for cell divs for later
 let graph = [...Array(6)].map(e => Array(6));
 let startPointNode;
@@ -13,6 +14,7 @@ let start = graph[3][3];
 let end = graph[5][5];
 let isGraphMade = false;
 let isRainbow = false;
+let wallOn = false;
 //intializing board and cells
 function initBoard(height, width){
   //creating a large container for all of the cells
@@ -42,32 +44,48 @@ function initBoard(height, width){
       //updating our graph to have an initial Node that has the appropriate cell mapped to it
       graph[row][col] = new Node(null,null,null,null,divCol);
       //adding event listners to every cell
+      divCol.addEventListener('click', e=>{e.stopPropagation()
+        divCol.addEventListener('mousedown', makeWall(graph[row][col]));
+      });
+      divCol.addEventListener('click', e=>{e.stopPropagation()
+        divCol.addEventListener('mouseover', makeWall(graph[row][col]));
+      });
+      
+      
       divCol.addEventListener('click', function(){
         if(endPoints.selectedIndex == 0)
         {
-          if(startPointNode != undefined)
+          if(!wallOn)
           {
-            startPointNode.cell.classList.remove("start");
-            startPointNode.cell.textContent = "";
+            if(startPointNode != undefined)
+            {
+              startPointNode.cell.classList.remove("start");
+              startPointNode.cell.textContent = "";
+            }
+            
+            startPointNode = graph[row][col];
+            start = startPointNode;
+            startPointNode.cell.classList.add("start");
+            startPointNode.cell.textContent = "Start";
           }
           
-          startPointNode = graph[row][col];
-          start = startPointNode;
-          startPointNode.cell.classList.add("start");
-          startPointNode.cell.textContent = "Start";
         }
         else 
         {
-          if(endPointNode != undefined)
+          if(!wallOn)
           {
-            endPointNode.cell.classList.remove("end");
-            endPointNode.cell.textContent = "";
+            if(endPointNode != undefined)
+            {
+              endPointNode.cell.classList.remove("end");
+              endPointNode.cell.textContent = "";
+            }
+            
+            endPointNode = graph[row][col];
+            end= endPointNode;
+            endPointNode.cell.classList.add("end");
+            endPointNode.cell.textContent = "End";
           }
           
-          endPointNode = graph[row][col];
-          end= endPointNode;
-          endPointNode.cell.classList.add("end");
-          endPointNode.cell.textContent = "End";
         }
         
       });
@@ -130,6 +148,7 @@ class Node {
     this.right = right;
     this.cell = cell;
     this.distance = Infinity;
+    this.isWall = false;
   }
 
 }
@@ -232,24 +251,28 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
     if(searchingNode.up != null && !sptSet.has(searchingNode.up) && !seen.has(searchingNode.up))
     {
       seen.add(searchingNode.up);
-      queueToSearch.enqueue(searchingNode.up);
+      if(!searchingNode.up.isWall)
+        queueToSearch.enqueue(searchingNode.up);
     }
    
     if(searchingNode.down != null && !sptSet.has(searchingNode.down)&& !seen.has(searchingNode.down))
     {
       seen.add(searchingNode.down);
-      queueToSearch.enqueue(searchingNode.down);
+      if(!searchingNode.down.isWall)
+        queueToSearch.enqueue(searchingNode.down);
     }
     
     if(searchingNode.left != null && !sptSet.has(searchingNode.left)&& !seen.has(searchingNode.left))
     {
       seen.add(searchingNode.left);
-      queueToSearch.enqueue(searchingNode.left);
+      if(!searchingNode.left.isWall)
+        queueToSearch.enqueue(searchingNode.left);
     }
     if(searchingNode.right != null && !sptSet.has(searchingNode.right) && !seen.has(searchingNode.right))
     {
       seen.add(searchingNode.right);
-      queueToSearch.enqueue(searchingNode.right);
+      if(!searchingNode.right.isWall)
+        queueToSearch.enqueue(searchingNode.right);
     }
     
     i++;
@@ -269,7 +292,9 @@ search.addEventListener('click', e=>{e.stopPropagation()
 clear.addEventListener('click', e=>{e.stopPropagation()
   clear.addEventListener('click', initBoard(30, 30));
 });
-
+drawWalls.addEventListener('click', e=>{e.stopPropagation()
+  drawWalls.addEventListener('click', toggleDrawWalls());
+});
 
 rainbowEle.addEventListener('click', function(){
   isRainbow = !isRainbow;
@@ -283,6 +308,17 @@ rainbowEle.addEventListener('click', function(){
   }
   console.log(isRainbow);
 });
+function toggleDrawWalls(){
+  wallOn = !wallOn;
+}
+function makeWall(node){
+  if(wallOn)
+  {
+    node.cell.classList.add("wall-on");
+    node.isWall = true;
+  }
+    
+}
 
 
 
