@@ -66,7 +66,7 @@ function initBoard(height, width){
             startPointNode = graph[row][col];
             start = startPointNode;
             startPointNode.cell.classList.add("start");
-            startPointNode.cell.textContent = "Start";
+            startPointNode.cell.textContent = ">";
           }
           
         }
@@ -83,7 +83,7 @@ function initBoard(height, width){
             endPointNode = graph[row][col];
             end= endPointNode;
             endPointNode.cell.classList.add("end");
-            endPointNode.cell.textContent = "End";
+            endPointNode.cell.textContent = "X";
           }
           
         }
