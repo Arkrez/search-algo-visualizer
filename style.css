@@ -40,11 +40,11 @@
 }
 
 .start{
-    background-color: rgba(116,13,163,1);
+    background-color: greenyellow;
     
 }
 .end {
-    background-color: rgba(0,212,255,1);
+    background-color: red;
 }
 
 #algos{
