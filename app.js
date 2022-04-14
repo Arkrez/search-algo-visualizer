@@ -223,6 +223,7 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
   queueToSearch.enqueue(start);
   console.log(queueToSearch)
   let i = 0;
+  let delay = 0;
   while(!sptSet.has(end))
   {
     console.log("running");
@@ -232,6 +233,7 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
     seen.add(searchingNode);
     sptSet.add(searchingNode);
     searchingNode.cell.classList.add("cell-filled");
+    delay = i;
     searchingNode.cell.style.transitionDelay = (1 * i)/(speed.value != "" ? speed.value : 50) + 's';
     if (isRainbow)
     {
@@ -252,27 +254,40 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
     {
       seen.add(searchingNode.up);
       if(!searchingNode.up.isWall)
+      {
         queueToSearch.enqueue(searchingNode.up);
+        searchingNode.up.distance = searchingNode.distance+ 1;
+      }
+        
     }
    
     if(searchingNode.down != null && !sptSet.has(searchingNode.down)&& !seen.has(searchingNode.down))
     {
       seen.add(searchingNode.down);
       if(!searchingNode.down.isWall)
+      {
         queueToSearch.enqueue(searchingNode.down);
+        searchingNode.down.distance = searchingNode.distance+1;
+      }
     }
     
     if(searchingNode.left != null && !sptSet.has(searchingNode.left)&& !seen.has(searchingNode.left))
     {
       seen.add(searchingNode.left);
       if(!searchingNode.left.isWall)
-        queueToSearch.enqueue(searchingNode.left);
+        {
+          queueToSearch.enqueue(searchingNode.left);
+          searchingNode.left.distance = searchingNode.distance+1;
+        }
     }
     if(searchingNode.right != null && !sptSet.has(searchingNode.right) && !seen.has(searchingNode.right))
     {
       seen.add(searchingNode.right);
       if(!searchingNode.right.isWall)
+      {
         queueToSearch.enqueue(searchingNode.right);
+        searchingNode.right.distance = searchingNode.distance+1;
+      }
     }
     
     i++;
@@ -282,6 +297,33 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
   if(sptSet.has(end))
   {
     end.cell.style.backgroundColor = "lightgreen";
+  }
+  let curr = end;
+  for(let index = 0; index < end.distance; index++)
+  {
+    curr.cell.style.backgroundColor = '';
+    curr.cell.classList.add("shortest-path")
+    
+    if(curr.up != null && curr.up.distance == curr.distance - 1)
+    {
+      curr = curr.up;
+      continue;
+    }
+    if(curr.down != null && curr.down.distance == curr.distance - 1)
+    {
+      curr = curr.down;
+      continue;
+    }
+    if(curr.left != null && curr.left.distance == curr.distance - 1)
+    {
+      curr = curr.left;
+      continue;
+    }
+    if(curr.right != null && curr.right.distance == curr.distance - 1)
+    {
+      curr = curr.right;
+      continue;
+    }
   }
 
 }

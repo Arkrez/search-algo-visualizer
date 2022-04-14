@@ -68,6 +68,11 @@
     transform-origin: center;
     transition: all 0.5s ease-in;
   }
+  div .shortest-path{
+   
+    background-color: yellow;
+    transition: all 0.5s ease-in;
+}
 
 *{
     padding: 0;
