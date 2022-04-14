@@ -278,7 +278,7 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
     i++;
     
   }
-  //end prematurely if we find the node we are looking for
+  //change the color of end node to green if found
   if(sptSet.has(end))
   {
     end.cell.style.backgroundColor = "lightgreen";
@@ -310,11 +310,19 @@ rainbowEle.addEventListener('click', function(){
 });
 function toggleDrawWalls(){
   wallOn = !wallOn;
+  if(wallOn)
+  {
+    drawWalls.classList.add("wall-on");
+  }
+  else
+  {
+    drawWalls.classList.remove("wall-on");
+  }
 }
 function makeWall(node){
   if(wallOn)
   {
-    node.cell.classList.add("wall-on");
+    node.cell.classList.add("wall-active");
     node.isWall = true;
   }
     

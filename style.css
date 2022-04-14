@@ -96,6 +96,15 @@ body{
 .rainbow-on {
     border-color: lightgreen;
 }
+.draw-walls-btn{
+    border: solid;
+    border-width: 2px;
+    border-color: red;
+
+}
 .wall-on {
+    border-color: lightgreen;
+}
+.wall-active {
     background-color: slategray;
 }
