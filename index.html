@@ -13,8 +13,10 @@
     <div class="header">
       <div>
         <h1>SEARCH-ALGO-VISUALIZER</h1>
-      </div>
-      <div>
+      </div >
+      
+      <div class="options">
+        <div class="drop-downs">
           <select name="algos" id="algos">
             <option value="first">Djkstra</option>
             <option value="second">Pending</option>
@@ -22,8 +24,17 @@
             <option value="fourth">Pending</option>
             <option value="fith">Pending</option>
           </select>
+          <label for="end-points">Place Node: </label>
+          <div>
+            
+            <select name="end-points" id="end-points">
+              <option value="start">Start</option>
+              <option value="end">End</option>
+            </select>
+          </div>
         </div>
-        <div>
+
+        <div class="search-clear-container">
           <button class="search-btn">
             SEARCH!
           </button>
@@ -33,22 +44,21 @@
            <label for="speed">Search Speed: </label>
            <input type="number" min="1" id="speed" placeholder="50">
         </div>
-        <div>
+
+        <div class="toggles">
           <button class="draw-walls-btn">Draw Walls</button>
-        </div>
-        <div>
-          <label for="end-points">Place Node: </label>
-          <select name="end-points" id="end-points">
-            <option value="start">Start</option>
-            <option value="end">End</option>
-          </select>
-        </div>
-        <div>
           <button class="rainbow-mode">
             Rainbow Mode!!!
           </button>
         </div>
+
+        
+
+        
+
       </div>
+        
+     
 
     </div>
     <div class="board-container">

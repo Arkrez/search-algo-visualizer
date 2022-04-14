@@ -243,9 +243,9 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
     }
     else
     {
-      r = 100;
-      g = 50;
-      b = 200;
+      r = 0;
+      g = 212;
+      b = 255;
     }
    
     searchingNode.cell.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
@@ -299,7 +299,7 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
     end.cell.style.backgroundColor = "lightgreen";
   }
   let curr = end;
-  for(let index = 0; index < end.distance; index++)
+  for(let index = 0; index < end.distance +1; index++)
   {
     curr.cell.style.backgroundColor = '';
     curr.cell.classList.add("shortest-path")

@@ -1,18 +1,21 @@
 
+body{
+    background-color: lightskyblue;
+}
 .graph-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: lightsalmon;
+    
     padding: 20px;
 }
 .cell {
     text-align: center;
     font-size: small;
-    background-color: lightskyblue;
-    width: 30px;
-    height: 20px;
+    background-color: white;
+    width: 18px;
+    height: 18px;
     
     margin: 0;
     padding: 0;
@@ -31,11 +34,11 @@
 
 .header{
     display: flex;
-    align-items: center;
-    justify-content: space-around;
+    flex-direction: column;
     min-height: 50px;
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(141,79,170,1) 0%, rgba(0,212,255,1) 100%);
+    align-items: center;
+    
+    background: rgb(101, 162, 212);
     flex-wrap: wrap;
 }
 
@@ -112,4 +115,24 @@ body{
 }
 .wall-active {
     background-color: slategray;
+}
+.search-clear-container{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+.options{
+    display: flex;
+    margin: 10px;
+    
+}
+.drop-downs{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+.toggles{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
 }
