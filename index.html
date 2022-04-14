@@ -61,32 +61,39 @@
      
 
     </div>
+    <div class="help-text">
+      <p>Click on the graph to place nodes or walls!</p>
+    </div>
     <div class="board-container">
 
     </div>
     
      
      <div class="form-container">
-      
+      <label for="Comments"> COMMENTS!!</label>
       <form   action="https://formspree.io/f/xdobwgao"
       method="POST" class="comment-form" id="comment-form">
-        <label for="Comments"> COMMENTS!!</label>
+        
+        <label for="email">Email:</label>
         <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email">
+          
+          <input type="email" id="email" name="email" placeholder="yourEmail@here.com">
         </div>
+        <label for="message">Message:</label>
         <div class="form-group">
-          <label for="message">Message</label>
+          
           <textarea name="message" id="message" cols="30" rows="10" placeholder="Send me a message! :)" required></textarea>
         </div>
         <button type="submit" name="submit">Submit</button>
       </form>
      </div>
-    
+     <div class="footer">
+       <div>
+        Created by Devon Ross. Open source code, you don't need permission to use anything here.
+       </div>
+     </div>
   </body>
 
   
-  <footer>
-    <p>Open source code, you don't need permission to use anything here</p>
-  </footer>
+  
 </html>

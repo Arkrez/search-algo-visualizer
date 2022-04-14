@@ -92,7 +92,8 @@ body{
     justify-content: flex-start;
 }
 .search-btn{
-    background-color: lightgreen;
+    background-color: rgb(0, 255, 0);
+    height: 30px;
 }
 
 .rainbow-mode{
@@ -135,4 +136,20 @@ body{
     display: flex;
     flex-direction: column;
     margin: 10px;
+}
+.footer{
+    
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    background-color: rgb(101, 162, 212);
+}
+.help-text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
 }
