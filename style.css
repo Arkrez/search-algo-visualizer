@@ -151,5 +151,11 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
+}
+input:invalid{
+    border-color: red;
+}
+.submit-btn{
+    margin-bottom: 50px;
 }
