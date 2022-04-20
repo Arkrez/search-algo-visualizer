@@ -1,9 +1,15 @@
 
 body{
     background-color: lightskyblue;
+    width: 100vw;
 }
 .board-container{
     margin: 20px;
+}
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .graph-container {
     display: flex;
@@ -40,7 +46,7 @@ body{
     flex-direction: column;
     min-height: 50px;
     align-items: center;
-    
+    justify-content: center;
     background: rgb(101, 162, 212);
     flex-wrap: wrap;
 }
