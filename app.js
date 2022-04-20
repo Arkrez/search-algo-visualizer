@@ -6,6 +6,9 @@ const clear = document.querySelector(".clear-btn");
 const speed = document.getElementById("speed");
 const rainbowEle = document.querySelector(".rainbow-mode");
 const drawWalls = document.querySelector(".draw-walls-btn");
+document.body.onmouseup = ()=>{
+  canDraw = false;
+}
 //initializing graph and creating a variable for cell divs for later
 let graph = [...Array(6)].map(e => Array(6));
 let startPointNode;
@@ -15,6 +18,7 @@ let end = graph[5][5];
 let isGraphMade = false;
 let isRainbow = false;
 let wallOn = false;
+let canDraw = false;
 //intializing board and cells
 function initBoard(height, width){
   //creating a large container for all of the cells
@@ -44,19 +48,24 @@ function initBoard(height, width){
       //updating our graph to have an initial Node that has the appropriate cell mapped to it
       graph[row][col] = new Node(null,null,null,null,divCol);
       //adding event listners to every cell
-      divCol.addEventListener('click', e=>{e.stopPropagation()
-        divCol.addEventListener('mousedown', makeWall(graph[row][col]));
-      });
-      divCol.addEventListener('click', e=>{e.stopPropagation()
-        divCol.addEventListener('mouseover', makeWall(graph[row][col]));
+     
+      divCol.addEventListener('mousedown', function(){
+          canDraw = true;
+          makeWall(graph[row][col]);
+        });
+      
+
+      
+      divCol.addEventListener('mouseover', function(){
+        
+        makeWall(graph[row][col]);
       });
       
       
       divCol.addEventListener('click', function(){
-        if(endPoints.selectedIndex == 0)
+        if(endPoints.selectedIndex == 0 && !wallOn)
         {
-          if(!wallOn)
-          {
+          
             if(startPointNode != undefined)
             {
               startPointNode.cell.classList.remove("start");
@@ -67,13 +76,12 @@ function initBoard(height, width){
             start = startPointNode;
             startPointNode.cell.classList.add("start");
             startPointNode.cell.textContent = "O";
-          }
+          
           
         }
-        else 
+        else if(endPoints.selectedIndex == 1 && !wallOn)
         {
-          if(!wallOn)
-          {
+          
             if(endPointNode != undefined)
             {
               endPointNode.cell.classList.remove("end");
@@ -84,7 +92,7 @@ function initBoard(height, width){
             end= endPointNode;
             endPointNode.cell.classList.add("end");
             endPointNode.cell.textContent = "X";
-          }
+          
           
         }
         
@@ -207,7 +215,7 @@ class Queue
 
 }
 
-initBoard(30, 30);
+initBoard(50, 50);
 
 function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
 {
@@ -362,7 +370,7 @@ function toggleDrawWalls(){
   }
 }
 function makeWall(node){
-  if(wallOn)
+  if(wallOn && canDraw)
   {
     node.cell.classList.add("wall-active");
     node.isWall = true;
