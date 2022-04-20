@@ -66,7 +66,7 @@ function initBoard(height, width){
             startPointNode = graph[row][col];
             start = startPointNode;
             startPointNode.cell.classList.add("start");
-            startPointNode.cell.textContent = ">";
+            startPointNode.cell.textContent = "O";
           }
           
         }
