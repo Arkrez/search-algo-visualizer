@@ -215,7 +215,7 @@ class Queue
 
 }
 
-initBoard(50, 50);
+initBoard(40, 40);
 
 function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
 {
@@ -229,15 +229,18 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
   });
   start.distance = 0;
   queueToSearch.enqueue(start);
-  console.log(queueToSearch)
+  
   let i = 0;
   let delay = 0;
   while(!sptSet.has(end))
   {
     console.log("running");
+    if(queueToSearch.isEmpty()) break;
     let searchingNode = queueToSearch.dequeue();
     
     //searchingNode.cell.style.backgroundColor = "pink";
+    
+    
     seen.add(searchingNode);
     sptSet.add(searchingNode);
     searchingNode.cell.classList.add("cell-filled");
@@ -301,38 +304,41 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
     i++;
     
   }
+
   //change the color of end node to green if found
   if(sptSet.has(end))
   {
+    let curr = end;
     end.cell.style.backgroundColor = "lightgreen";
+    for(let index = 0; index < end.distance +1; index++)
+    {
+      curr.cell.style.backgroundColor = '';
+      curr.cell.classList.add("shortest-path")
+      
+      if(curr.up != null && curr.up.distance == curr.distance - 1)
+      {
+        curr = curr.up;
+        continue;
+      }
+      if(curr.down != null && curr.down.distance == curr.distance - 1)
+      {
+        curr = curr.down;
+        continue;
+      }
+      if(curr.left != null && curr.left.distance == curr.distance - 1)
+      {
+        curr = curr.left;
+        continue;
+      }
+      if(curr.right != null && curr.right.distance == curr.distance - 1)
+      {
+        curr = curr.right;
+        continue;
+      }
+    }
   }
-  let curr = end;
-  for(let index = 0; index < end.distance +1; index++)
-  {
-    curr.cell.style.backgroundColor = '';
-    curr.cell.classList.add("shortest-path")
-    
-    if(curr.up != null && curr.up.distance == curr.distance - 1)
-    {
-      curr = curr.up;
-      continue;
-    }
-    if(curr.down != null && curr.down.distance == curr.distance - 1)
-    {
-      curr = curr.down;
-      continue;
-    }
-    if(curr.left != null && curr.left.distance == curr.distance - 1)
-    {
-      curr = curr.left;
-      continue;
-    }
-    if(curr.right != null && curr.right.distance == curr.distance - 1)
-    {
-      curr = curr.right;
-      continue;
-    }
-  }
+  
+  
 
 }
 //Have to nest event listeners here or the search will trigger as soon as the page loads due to bubbling
@@ -340,7 +346,7 @@ search.addEventListener('click', e=>{e.stopPropagation()
   search.addEventListener('click', DjkstrasSearch(start, end));
 });
 clear.addEventListener('click', e=>{e.stopPropagation()
-  clear.addEventListener('click', initBoard(30, 30));
+  clear.addEventListener('click', initBoard(40, 40));
 });
 drawWalls.addEventListener('click', e=>{e.stopPropagation()
   drawWalls.addEventListener('click', toggleDrawWalls());
@@ -363,6 +369,7 @@ function toggleDrawWalls(){
   if(wallOn)
   {
     drawWalls.classList.add("wall-on");
+    
   }
   else
   {
@@ -372,6 +379,9 @@ function toggleDrawWalls(){
 function makeWall(node){
   if(wallOn && canDraw)
   {
+    if(node.cell.classList.contains("cell-filled"))
+      node.cell.classList.remove("cell-filled");
+    node.cell.style.backgroundColor = "";
     node.cell.classList.add("wall-active");
     node.isWall = true;
   }
