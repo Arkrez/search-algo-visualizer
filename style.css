@@ -1,10 +1,16 @@
 
+*{
+    box-sizing: border-box;
+}
 body{
     background-color: lightskyblue;
     width: 100vw;
 }
 .board-container{
-    margin: 20px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .title {
     display: flex;
@@ -13,21 +19,25 @@ body{
 }
 .graph-container {
     display: flex;
+    width: 100vw;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     
-    margin: 20px;
+  
 }
 .cell {
+    display: flex;
     text-align: center;
     font-size:medium;
     background-color: white;
-    width: 1rem;
+    
+   
+    width: 2vh;
+    
     height: 1rem;
     font-weight: bold;
-    margin: 0;
-    padding: 0;
+    
 
     border: solid;
     border-width: 1px;
@@ -37,6 +47,9 @@ body{
 }
 .row{
     display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
     margin: 0;
     padding: 0;
 }
