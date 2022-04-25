@@ -158,6 +158,7 @@ class Node {
     this.cell = cell;
     this.distance = Math.max();
     this.isWall = false;
+    this.opening = false;
   }
 
 }
@@ -370,9 +371,14 @@ clear.addEventListener('click', e=>{e.stopPropagation()
 drawWalls.addEventListener('click', e=>{e.stopPropagation()
   drawWalls.addEventListener('click', toggleDrawWalls());
 });
-mazeBtn.addEventListener('click', e=>{e.stopPropagation()
-  mazeBtn.addEventListener('click', createMaze());
-});
+
+mazeBtn.addEventListener('click', x=>{
+    initBoard(40,40);
+    initialWalls();
+    createMaze(39, 1, 39, 1, Math.round(Math.random() +1));
+  });
+  
+
 rainbowEle.addEventListener('click', function(){
   isRainbow = !isRainbow;
   if(isRainbow)
@@ -452,43 +458,73 @@ function initialWalls(){
   wallOn = false;
   canDraw = false;
 }
-let poop = 0;
-function createMaze(){
-  //Base case, h - l < 1
-  //all rows end up on even
-  //all row opening end on even
-  //all cols end up on odd
-  //all col openings end on odd
-  
-}
 
-/*
-if(poop > 5) return;
-  if(rowH-rowL <= 2) return;
-  if(colH-colL <=2)  return;
+function createMaze(rowH,rowL, colH, colL, type){
+  
+  
+  //Base case, h - l < 2
+  
+  if(rowH-rowL <= 2 ) return;
+  if(colH-colL <=2) return;
+  
+  //decide row col based on type
+  let nType = Math.round(Math.random()+1);
   if(type == 2)
   {
+    //pick a valid column between rowL && rowH
+    //all row openings end on even
+    let newRow = Math.round(Math.random()*(rowH - rowL) + rowL)
+    newRow = newRow % 2 ==0? newRow : (newRow -1 > rowL ? newRow -1:newRow+1)
     let opening = Math.round(Math.random() * (colH-colL) + colL);
-    let newRowH = Math.floor(rowH/2);
-    let newRowL = Math.floor(rowL*2);
+    //ensuring even opening within bouds
+    opening = opening % 2 == 0? opening : (opening -1 > colL ? opening -1: opening+1);
+    //loop through the lowest and highest cells allowed by col
     for(let cell = colL; cell < colH; cell++)
     {
-      if(cell = opening)continue;
-      makeWall(graph[rowH][cell]); 
+      
+      //graph[newRow][cell].cell.style.transitionDelay = (1 * i)/(speed.value != "" ? speed.value : 50) + 's';
+      if(cell == opening || graph[newRow][cell].opening)
+      {
+        graph[newRow][cell].opening = true;
+        continue;
+      }
+      
+      makeWallNoCheck(graph[newRow][cell]);
     }
-    createMaze(newRowH-1, rowL, colH, colL, nType);
-    createMaze(rowH, newRowL+1, colH, colL, nType);
-  }
-  else {
+    
+    //createMaze above and below
+    createMaze(newRow,rowL, colH, colL, nType);
+    createMaze(rowH,newRow, colH, colL, nType);
+
+  }else{
+    //pick a valid column between colL && colH
+    //all cols end up on odd
+    let newCol = Math.round(Math.random()*(colH - colL) + colL)
+    newCol = newCol % 2 ==1? newCol : (newCol -1 > colL ? newCol -1:newCol+1)
+    //all col openings end on odd
     let opening = Math.round(Math.random() * (rowH-rowL) + rowL);
-    let newColH = Math.floor(colH/2);
-    let newColL = Math.floor(colL*2);
+    //ensuring odd opening withing bounds
+    opening = opening % 2 == 1? opening : (opening -1 > rowL ? opening -1: opening+1);
+    //loop through the lowest and highest cells allowed by row
     for(let cell = rowL; cell < rowH; cell++)
     {
-      if(cell = opening)continue;
-      makeWall(graph[cell][colH]); 
+      
+      if(cell == opening || graph[cell][newCol].opening)
+      {
+        graph[cell][newCol].opening = true;
+        continue;
+      }
+      //graph[cell][newCol].cell.style.transitionDelay = (1 * i)/(speed.value != "" ? speed.value : 50) + 's';
+      
+      makeWallNoCheck(graph[cell][newCol]);
+
     }
-    createMaze(rowH, rowL, newColH -1, colL, nType);
-    createMaze(rowH, rowL, colH, newColL+1, nType);
+    
+    //createMaze above and below
+    createMaze(rowH,rowL, newCol, colL, nType);
+    createMaze(rowH,rowL, colH, newCol, nType);
   }
-*/
+ 
+
+  
+}
