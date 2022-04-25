@@ -6,6 +6,7 @@ const clear = document.querySelector(".clear-btn");
 const speed = document.getElementById("speed");
 const rainbowEle = document.querySelector(".rainbow-mode");
 const drawWalls = document.querySelector(".draw-walls-btn");
+const mazeBtn = document.querySelector(".create-maze-btn");
 document.body.onmouseup = ()=>{
   canDraw = false;
 }
@@ -155,7 +156,7 @@ class Node {
     this.left = left;
     this.right = right;
     this.cell = cell;
-    this.distance = Infinity;
+    this.distance = Math.max();
     this.isWall = false;
   }
 
@@ -224,8 +225,24 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
   const seen = new Set();
   const sptSet = new Set();
   const queueToSearch = new Queue();
-  graph.forEach(node => {
-    node.distance = Infinity;
+  graph.forEach(row => {
+    row.forEach(node =>
+    {
+      node.distance = Math.max();
+      node.cell.style.transitionDelay = '0.00s';
+      if(node.cell.classList.contains("cell-filled"))
+      {
+        node.cell.style.backgroundColor = "";
+        node.cell.classList.remove("cell-filled");
+      }
+      if(node.cell.classList.contains("shortest-path"))
+      {
+        
+        node.cell.style.backgroundColor = "";
+        node.cell.classList.remove("shortest-path");
+      }
+    });
+    
   });
   start.distance = 0;
   queueToSearch.enqueue(start);
@@ -244,6 +261,8 @@ function DjkstrasSearch(start = graph[0][0], end = graph[15][15])
     seen.add(searchingNode);
     sptSet.add(searchingNode);
     searchingNode.cell.classList.add("cell-filled");
+    //Enable this to see the distance of each node from the start node
+    //searchingNode.cell.textContent = searchingNode.distance;
     delay = i;
     searchingNode.cell.style.transitionDelay = (1 * i)/(speed.value != "" ? speed.value : 50) + 's';
     if (isRainbow)
@@ -351,7 +370,9 @@ clear.addEventListener('click', e=>{e.stopPropagation()
 drawWalls.addEventListener('click', e=>{e.stopPropagation()
   drawWalls.addEventListener('click', toggleDrawWalls());
 });
-
+mazeBtn.addEventListener('click', e=>{e.stopPropagation()
+  mazeBtn.addEventListener('click', createMaze());
+});
 rainbowEle.addEventListener('click', function(){
   isRainbow = !isRainbow;
   if(isRainbow)
@@ -380,13 +401,94 @@ function makeWall(node){
   if(wallOn && canDraw)
   {
     if(node.cell.classList.contains("cell-filled"))
+    {
+      node.cell.style.transitionDelay = '0.00s';
       node.cell.classList.remove("cell-filled");
+    }
+    if(node.cell.classList.contains("shortest-path"))
+    {
+      node.cell.style.transitionDelay = '0.00s';
+      node.cell.classList.remove("shortest-path");
+    }
+      
     node.cell.style.backgroundColor = "";
     node.cell.classList.add("wall-active");
     node.isWall = true;
   }
     
 }
+function makeWallNoCheck(node)
+{
+    if(node.cell.classList.contains("cell-filled"))
+    {
+      node.cell.style.transitionDelay = '0.00s';
+      node.cell.classList.remove("cell-filled");
+    }
+    if(node.cell.classList.contains("shortest-path"))
+    {
+      node.cell.style.transitionDelay = '0.00s';
+      node.cell.classList.remove("shortest-path");
+    }
+      
+    node.cell.style.backgroundColor = "";
+    node.cell.classList.add("wall-active");
+    node.isWall = true;
+}
+function initialWalls(){
+  wallOn = true;
+  canDraw = true;
+  for(let cell = 0; cell < graph[0].length; cell++)
+  {
+    
+    //top row wall
+    makeWall(graph[0][cell]);
+    //right col wall
+    makeWall(graph[cell][graph[0].length -1]);
+    //bottom row wall
+    makeWall(graph[graph[0].length -1][cell]);
+    //left col wall
+    makeWall(graph[cell][0]);
+  }
+  wallOn = false;
+  canDraw = false;
+}
+let poop = 0;
+function createMaze(){
+  //Base case, h - l < 1
+  //all rows end up on even
+  //all row opening end on even
+  //all cols end up on odd
+  //all col openings end on odd
+  
+}
 
-
-
+/*
+if(poop > 5) return;
+  if(rowH-rowL <= 2) return;
+  if(colH-colL <=2)  return;
+  if(type == 2)
+  {
+    let opening = Math.round(Math.random() * (colH-colL) + colL);
+    let newRowH = Math.floor(rowH/2);
+    let newRowL = Math.floor(rowL*2);
+    for(let cell = colL; cell < colH; cell++)
+    {
+      if(cell = opening)continue;
+      makeWall(graph[rowH][cell]); 
+    }
+    createMaze(newRowH-1, rowL, colH, colL, nType);
+    createMaze(rowH, newRowL+1, colH, colL, nType);
+  }
+  else {
+    let opening = Math.round(Math.random() * (rowH-rowL) + rowL);
+    let newColH = Math.floor(colH/2);
+    let newColL = Math.floor(colL*2);
+    for(let cell = rowL; cell < rowH; cell++)
+    {
+      if(cell = opening)continue;
+      makeWall(graph[cell][colH]); 
+    }
+    createMaze(rowH, rowL, newColH -1, colL, nType);
+    createMaze(rowH, rowL, colH, newColL+1, nType);
+  }
+*/

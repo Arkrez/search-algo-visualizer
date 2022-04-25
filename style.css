@@ -17,6 +17,10 @@ body{
 h1{
     text-align: center;
 }
+.title{
+    letter-spacing: .5em;
+    text-shadow: 1px 1px 2px lightskyblue;
+}
 .title, 
 .graph-container,
 .board-container,
@@ -102,9 +106,6 @@ div .shortest-path{
 }
 
 
-body{
-    font-family: 'Montserrat';
-}
 .form-container{
     display: flex;
     flex-direction: column;
